@@ -1,0 +1,23 @@
+---
+title: "ShoveBox"
+date: 2008-10-22 08:44
+comments: true
+categories: Me
+---
+
+Over the course of a week, my desktop folder gets pretty messy and I struggle with better ways to manage it. The bulk of my files seem to be xxxxxxx.webloc or text clippings ... for subjects I might be researching but don't care enough about to "bookmark" forever. The clippings are often relevant for a few hours, but nothing I want to keep around long term. That would be fine enough if I could remember to throw them away after moving onto my next task. Alas, I never do ... my desktop is a disaster!
+
+So, today while in [#werenot](irc://irc.freenode.net:6667/werenot) a good buddy suggested I check out [ShoveBox](http://www.wonderwarp.com/shovebox/).
+
+{% blockquote %}ShoveBox catches all those little scraps of information that you can't act on now but would rather not forget. It sits up in your menubar, waiting for you to drag in text, images, URLs, and more."
+{% endblockquote %}
+
+Fantastic ... I downloaded the demo, installed it and was left with a great first impression.
+
+In ShoveBox, you are meant to access your scraps via a hotkeyed window ..that was quite important to me. After setting F14-F16 to good use I was glad to see how fast the organizer window loaded. What I want most from this sort of app is for it to be non interruptive, and hotkeys help to that end. Ideally, I won't have to use the mouse at all.
+
+ShoveBox is very simple. You just create folders to store stuff, and then ... you store stuff. You can also flag or label items as you might normally in the Finder, which is helpful. What's best though is that's about as complicated as it gets. I really don't want or expect ShoveBox to do anything more. Thats not to say there aren't additional features, but they don't get in my way. I've used other apps meant to serve this purpose where that was an issue.
+
+So I'm going to keep using ShoveBox for a bit longer. My Desktop is clean for now. I couldn't be happier.
+
+Anyone else tried apps of this sort? Recommendations?
