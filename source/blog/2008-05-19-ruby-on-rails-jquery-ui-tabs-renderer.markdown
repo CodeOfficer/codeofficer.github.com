@@ -2,7 +2,7 @@
 title: "Ruby on Rails, JQuery UI … and TabsRenderer!"
 date: 2008-05-19 09:54
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I'm a big fan of [JQuery](http://ui.jquery.com/) UI and have been using the [Tab plugin](http://ui.jquery.com/functional_demos/#ui.tabs) a lot recently.

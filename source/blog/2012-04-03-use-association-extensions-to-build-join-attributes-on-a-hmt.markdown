@@ -2,8 +2,7 @@
 title: "Use Association Extensions to Build Join Attributes on a HMT"
 date: 2012-04-03 02:36
 comments: true
-categories: Rails
-published: false
+tags: Rails
 ---
 
 It's common in Rails to use a `has_many :through` relationship to model User/Group Memberships.
@@ -11,7 +10,7 @@ Sometimes we have extra data in the join that we would like to make use of, but 
 data in there can be combersome depending on our approach. For example, given the
 following diagram and schema:
 
-![Diagram](/images/mine/yuml-cb495048.png)
+![Diagram](/images/mine/yumlcb495048.png)
 
 ~~~ ruby
 ActiveRecord::Schema.define(:version => 20120324170519) do

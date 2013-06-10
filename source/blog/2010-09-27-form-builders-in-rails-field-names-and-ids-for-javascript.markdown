@@ -2,7 +2,7 @@
 title: "Form builders in Rails: field names and ids for Javascript"
 date: 2010-09-27 03:50
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I came up with a few convenience methods today which will help you discover what Rail's generated NAME and ID attributes will be for a specific field on a given form builder object. Actually, I didn't come up with them so much as extract them from the built in form builder. It was useful enough to me that I thought I might share my discovery. I can't tell you how many times I've lazily hardcoded an ID onto a form element just to bypass the defaults.

@@ -2,7 +2,7 @@
 title: "ActiveRecord and methods on your model associations"
 date: 2009-03-08 03:00
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I left PHP to program in Ruby a little over a year ago now, though technically I think I focused more on learning Rails during my first month. Like most who made the journey, I found Ruby a joy to work with, and Rails to have everything I needed to make great web apps. But to this day, the part of Rails I struggle the most with is ActiveRecord. There's just so much magic in there ...

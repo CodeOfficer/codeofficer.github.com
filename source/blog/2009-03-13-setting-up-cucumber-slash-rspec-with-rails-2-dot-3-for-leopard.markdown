@@ -2,7 +2,7 @@
 title: "Setting up Cucumber/RSpec with Rails 2.3 for Leopard"
 date: 2009-03-13 02:54
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 Install the gems:

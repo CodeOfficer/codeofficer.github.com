@@ -2,7 +2,7 @@
 title: "Silky Buttons for Rails"
 date: 2008-11-24 08:33
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I've used the [Blueprint CSS](http://blueprintcss.org/) framework on a number of projects and loved it. Recently though, I switched over to using the [960 Grid System](http://960.gs/) for its more minimalist footprint. 960's typography style-sheet contains just enough to get you started on any project, with no extra bloat. I love it.
@@ -13,5 +13,4 @@ So this weekend I [built a rails plugin](http://github.com/CodeOfficer/silky-but
 
 Let me know if you find it useful. [Get it here on Github](http://github.com/CodeOfficer/silky-buttons-for-rails/).
 
-{% img center /images/mine/silkybuttons.png 367 70 'silky buttons' %}
-
+![silky buttons](/images/mine/silkybuttons.png)

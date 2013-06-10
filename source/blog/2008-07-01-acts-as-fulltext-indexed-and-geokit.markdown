@@ -2,7 +2,7 @@
 title: "acts_as_fulltext_indexed and geokit"
 date: 2008-07-01 09:27
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I created a [quick fork](http://github.com/CodeOfficer/acts_as_fulltext_indexed/tree/master) on github of the [acts_as_fulltext_indexed](http://blog.antiarc.net/2007/05/01/introducing-acts_as_fulltext_indexed/) plugin made by [Chris Heald](http://blog.antiarc.net/) of antiarc.net.

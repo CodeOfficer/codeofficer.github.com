@@ -2,7 +2,7 @@
 title: "Using Backbone Views With Rails jQuery-ujs"
 date: 2012-04-16 02:36
 comments: true
-categories: javascript
+tags: Javascript
 published: false
 ---
 

@@ -2,7 +2,7 @@
 title: "7 Best of Breed Rails Plugins I Can't Live Without"
 date: 2009-04-01 02:27
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I am often asked about the various gems/plugins I use in my Rails apps and thought it might make for a good blog post. Most of these I have a good history with, while some I settled on only recently. Either way, this list contains what I consider to be the best of the best, for what each of them helps to accomplish. I hope you will check them out if you have not yet had a chance to.

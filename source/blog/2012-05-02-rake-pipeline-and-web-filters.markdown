@@ -2,7 +2,7 @@
 title: "Rake-Pipeline and Web Filters"
 date: 2012-05-02 02:36
 comments: true
-categories: ruby javascript
+tags: Ruby Javascript
 published: false
 ---
 

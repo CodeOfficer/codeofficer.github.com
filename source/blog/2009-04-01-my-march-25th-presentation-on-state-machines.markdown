@@ -2,7 +2,7 @@
 title: "My March 25th Presentation on State Machines"
 date: 2009-04-01 02:50
 comments: true
-categories: Ruby
+tags: Ruby
 ---
 
 [Materials](http://github.com/CodeOfficer/presentation-materials) for a talk I did on March 25th at the Maine Ruby Users Group ([merug.org](http://meruby.org/)) are now on [Github](http://github.com/CodeOfficer). The topic was State Machines and I'll be doing the same presentation again at the New Hampshire Ruby Users Group (nhrug.org) next month, on April 30th.

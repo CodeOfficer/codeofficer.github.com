@@ -2,7 +2,7 @@
 title: "JQuery UI TabsRenderer is on GitHub now"
 date: 2008-06-22 09:33
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I created a more official home for TabsRenderer over at github tonight, and I plan to work on additional helpers this summer in my off-time.

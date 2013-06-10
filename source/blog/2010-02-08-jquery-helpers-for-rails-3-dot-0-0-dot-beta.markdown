@@ -2,7 +2,7 @@
 title: "jQuery helpers for Rails 3.0.0.beta"
 date: 2010-02-08 05:07
 comments: true
-categories: [Javascript Rails]
+tags: Javascript, Rails
 ---
 
 I've just ported the unobtrusive javascript helpers in Rails 3 from Prototype to jQuery-1.4.1, but I haven't tested it to work with earlier versions of jQuery yet. Let me know if you find this useful or have any issues installing the gem.

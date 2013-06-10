@@ -2,7 +2,7 @@
 title: "My Initial Impressions of Tweetie for Mac"
 date: 2009-04-20 05:22
 comments: true
-categories: Apps
+tags: Apps
 ---
 
 [Tweetie for Mac](http://www.atebits.com/tweetie-mac/) came out yesterday. I've anxiously awaited its release since I'm already such a fan of the ever popular [Tweetie for iPhone](http://www.atebits.com/tweetie-iphone/). However, I was a bit underwhelmed with what it has to offer. Tweetie for Mac's strongest feature is its sexy aesthetic quality, which just "looks" different. That feature alone can make it seem superior to other cloned desktop [Twitter](https://twitter.com/) clients, but I don't think its enough to make it a truly great app. Not yet, and not without some additional effort. I'm waiting for some updates.

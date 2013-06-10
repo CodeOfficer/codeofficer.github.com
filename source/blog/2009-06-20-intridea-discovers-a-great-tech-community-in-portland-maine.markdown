@@ -2,7 +2,7 @@
 title: "Intridea discovers a great tech community in Portland Maine"
 date: 2009-06-20 05:16
 comments: true
-categories: [Rails Events]
+tags: Rails, Events
 ---
 
 This week I had the pleasure of attending [Hackon](http://intridea.com/hackon), a FREE 3 day technology event thrown by Intridea here in Portland, Maine. It took place at the [Portland Harbor Hotel](http://www.portlandharborhotel.com/) and was organized by [Adam Bair](http://www.adambair.com/), a local friend, Ruby enthusiast and employee of [Intridea](http://intridea.com/). Adam did a wonderful Job of organizing the event. Many thanks to Intridea for making it all possible!

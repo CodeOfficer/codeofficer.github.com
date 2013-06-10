@@ -2,7 +2,7 @@
 title: "Custom Built Guild Wars 2 Gaming Rig"
 date: 2012-04-14 02:21
 comments: true
-categories: Gaming
+tags: Gaming
 ---
 
 My good friend [John Coppola](mailto:john1253113@gmail.com) recently told me that he had built his own CNC machine from scratch. Soon afterwards we discussed the idea that he would build my next gaming computer. I knew from personal experience how killer John's computers were ... he's very meticulous, and really enjoys a cutom build. As excited as I was, I really didn't know what to expect when he told me this one would be 100% of his own making, but I'll get back to this ...

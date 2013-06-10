@@ -2,7 +2,7 @@
 title: "My Poor Use of Git Commit Messages"
 date: 2008-08-28 09:20
 comments: true
-categories: Git
+tags: Git
 ---
 
 I began using git to manage the source code for my current project, a Rails app which I should hopefully be launching shortly. Yahoo! Now, I hadn't actually been using source control for very long before I began, and wasn't able to focus on best practices. With a wife, 2 kids and 2 jobs, I was lucky to get the coding of the apps themselves under control. That said, its funny now to look back at all my commit messages for this project.

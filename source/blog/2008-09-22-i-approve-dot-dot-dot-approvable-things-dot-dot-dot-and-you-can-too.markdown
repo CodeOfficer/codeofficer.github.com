@@ -2,7 +2,7 @@
 title: "I approve... approvable things ... and you can too!"
 date: 2008-09-22 09:08
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 I recently built a website for a client that needed every type of content "approved" before it should appear on its public pages. I started out thinking that there may be many different states of approval and that perhaps I should use [acts_as_statemachine](http://github.com/freels/acts_as_state_machine/tree/master) to manage these state transitions. After a bit of thinking and frustration with how AASM saves and reloads each model after a transition, I decided I could create something much simpler for my own needs.

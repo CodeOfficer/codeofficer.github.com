@@ -2,7 +2,7 @@
 title: "What I've been up to"
 date: 2009-03-07 03:09
 comments: true
-categories: Me
+tags: Me
 ---
 
 I haven't posted in a while, but I've been quite busy in other places. I'm hoping to finish up a new Rails blogging engine I've been working on so that I can start writing some advanced ruby/rails tutorials.

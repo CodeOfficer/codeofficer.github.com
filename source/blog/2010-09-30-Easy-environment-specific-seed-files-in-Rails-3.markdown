@@ -2,7 +2,7 @@
 title: "Easy environment specific seed files in Rails 3"
 date: 2010-09-30 02:36
 comments: true
-categories: Rails
+tags: Rails
 ---
 
 Tonight I discovered a [lighthouse ticket](https://rails.lighthouseapp.com/projects/8994/tickets/4908-feature-request-db-seed-files-for-each-environment) by [Postmodern](http://houseofpostmodern.wordpress.com/). In it, he asks about adding an environment aware feature to the existing 'rake db:seed' task, so that he could seed specific environments differently. He even includes [a patch](http://github.com/postmodern/rails/commit/7dd0718239c6747e1a6981aed9b9c406532e9828).

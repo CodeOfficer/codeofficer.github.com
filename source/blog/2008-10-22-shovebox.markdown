@@ -2,7 +2,7 @@
 title: "ShoveBox"
 date: 2008-10-22 08:44
 comments: true
-categories: Me
+tags: Me
 ---
 
 Over the course of a week, my desktop folder gets pretty messy and I struggle with better ways to manage it. The bulk of my files seem to be xxxxxxx.webloc or text clippings ... for subjects I might be researching but don't care enough about to "bookmark" forever. The clippings are often relevant for a few hours, but nothing I want to keep around long term. That would be fine enough if I could remember to throw them away after moving onto my next task. Alas, I never do ... my desktop is a disaster!
