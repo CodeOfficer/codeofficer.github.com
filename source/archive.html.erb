@@ -1,0 +1,7 @@
+<h1>Archive</h1>
+
+<% page_articles.each do |article| %>
+  <article>
+    <%= link_to article.title, article %> • <time><%= article.date.strftime('%b %e, %Y') %></time>
+  </article>
+<% end %>
