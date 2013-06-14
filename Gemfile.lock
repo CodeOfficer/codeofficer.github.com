@@ -121,5 +121,5 @@ DEPENDENCIES
   middleman (~> 3.0.14)
   middleman-blog (~> 3.2.0)
   middleman-deploy (~> 0.0.12)
-  middleman-syntax
-  redcarpet
+  middleman-syntax (~> 1.2.1)
+  redcarpet (~> 2.3.0)
