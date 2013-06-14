@@ -23,37 +23,37 @@ To celebrate, I wanted to do something special and decided to go all out on buil
 I could never have known how cool this machine would end up, and how perfectly it would fit my needs. You'll notice that despite the etching on the side, there's even a Guild Wars 2 look about it. Honestly, the etching was an afterthought. Johk John actually jokes that he chose white acrylic to make the case with because I was a mac guy and would eat it right up. He was right I guess. I present to you, the fruit of John's labor ...
 
 <ul class="thumbnails">
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-01.png"><img src="/images/computer/thumbs/Computer-01.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-02.png"><img src="/images/computer/thumbs/Computer-02.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-04.png"><img src="/images/computer/thumbs/Computer-04.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-05.png"><img src="/images/computer/thumbs/Computer-05.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-06.png"><img src="/images/computer/thumbs/Computer-06.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-08.png"><img src="/images/computer/thumbs/Computer-08.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-09.png"><img src="/images/computer/thumbs/Computer-09.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-10.png"><img src="/images/computer/thumbs/Computer-10.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-11.png"><img src="/images/computer/thumbs/Computer-11.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-13.png"><img src="/images/computer/thumbs/Computer-13.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-14.png"><img src="/images/computer/thumbs/Computer-14.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-15.png"><img src="/images/computer/thumbs/Computer-15.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-17.png"><img src="/images/computer/thumbs/Computer-17.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-18.png"><img src="/images/computer/thumbs/Computer-18.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-20.png"><img src="/images/computer/thumbs/Computer-20.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-21.png"><img src="/images/computer/thumbs/Computer-21.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-22.png"><img src="/images/computer/thumbs/Computer-22.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-24.png"><img src="/images/computer/thumbs/Computer-24.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-26.png"><img src="/images/computer/thumbs/Computer-26.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-27.png"><img src="/images/computer/thumbs/Computer-27.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-28.png"><img src="/images/computer/thumbs/Computer-28.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-29.png"><img src="/images/computer/thumbs/Computer-29.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-30.png"><img src="/images/computer/thumbs/Computer-30.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-32.png"><img src="/images/computer/thumbs/Computer-32.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-33.png"><img src="/images/computer/thumbs/Computer-33.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-34.png"><img src="/images/computer/thumbs/Computer-34.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-36.png"><img src="/images/computer/thumbs/Computer-36.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-37.png"><img src="/images/computer/thumbs/Computer-37.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-40.png"><img src="/images/computer/thumbs/Computer-40.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-41.png"><img src="/images/computer/thumbs/Computer-41.png" alt="" /></a></li>
-<li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-42.png"><img src="/images/computer/thumbs/Computer-42.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-01.png"><img src="/images/computer/thumbs/Computer-01.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-02.png"><img src="/images/computer/thumbs/Computer-02.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-04.png"><img src="/images/computer/thumbs/Computer-04.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-05.png"><img src="/images/computer/thumbs/Computer-05.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-06.png"><img src="/images/computer/thumbs/Computer-06.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-08.png"><img src="/images/computer/thumbs/Computer-08.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-09.png"><img src="/images/computer/thumbs/Computer-09.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-10.png"><img src="/images/computer/thumbs/Computer-10.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-11.png"><img src="/images/computer/thumbs/Computer-11.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-13.png"><img src="/images/computer/thumbs/Computer-13.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-14.png"><img src="/images/computer/thumbs/Computer-14.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-15.png"><img src="/images/computer/thumbs/Computer-15.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-17.png"><img src="/images/computer/thumbs/Computer-17.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-18.png"><img src="/images/computer/thumbs/Computer-18.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-20.png"><img src="/images/computer/thumbs/Computer-20.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-21.png"><img src="/images/computer/thumbs/Computer-21.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-22.png"><img src="/images/computer/thumbs/Computer-22.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-24.png"><img src="/images/computer/thumbs/Computer-24.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-26.png"><img src="/images/computer/thumbs/Computer-26.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-27.png"><img src="/images/computer/thumbs/Computer-27.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-28.png"><img src="/images/computer/thumbs/Computer-28.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-29.png"><img src="/images/computer/thumbs/Computer-29.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-30.png"><img src="/images/computer/thumbs/Computer-30.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-32.png"><img src="/images/computer/thumbs/Computer-32.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-33.png"><img src="/images/computer/thumbs/Computer-33.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-34.png"><img src="/images/computer/thumbs/Computer-34.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-36.png"><img src="/images/computer/thumbs/Computer-36.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-37.png"><img src="/images/computer/thumbs/Computer-37.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-40.png"><img src="/images/computer/thumbs/Computer-40.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-41.png"><img src="/images/computer/thumbs/Computer-41.png" alt="" /></a></li>
+  <li class="span2"><a class="thumbnail" href="/images/computer/large/Computer-42.png"><img src="/images/computer/thumbs/Computer-42.png" alt="" /></a></li>
 </ul>
 
 And here are the system specs:
