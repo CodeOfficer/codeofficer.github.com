@@ -8,12 +8,8 @@ tags: Gaming
 My good friend [John Coppola](mailto:john1253113@gmail.com) recently told me that he had built his own CNC machine from scratch. Soon afterwards we discussed the idea that he would build my next gaming computer. I knew from personal experience how killer John's computers were ... he's very meticulous, and really enjoys a cutom build. As excited as I was, I really didn't know what to expect when he told me this one would be 100% of his own making, but I'll get back to this ...
 
 <div class="video-container">
-  <object width="640" height="360">
-    <param name="movie" value="http://www.youtube.com/v/HszCWPcsnFA?version=3&amp;hl=zh_TW">
-    <param name="allowFullScreen" value="true">
-    <param name="allowscriptaccess" value="always">
-    <embed src="http://www.youtube.com/v/HszCWPcsnFA?version=3&amp;hl=zh_TW" type="application/x-shockwave-flash" width="640" height="360" allowscriptaccess="always" allowfullscreen="true" style="display: block !important; ">
-    </object>
+  <iframe src="http://youtube.com/embed/HszCWPcsnFA?rel=0" frameborder="0" allowfullscreen>
+  </iframe>
 </div>
 
 In truth, I haven't gamed much since 2006 when my wife and I got married, bought a house and had our first baby. I was a year or so into [World of Warcraft](http://us.battle.net/wow/en/) then and had been agressively playing MMOs since 2001. I'd have dropped gaming all together that year if it weren't for my fortunate discovery of Guild Wars.
