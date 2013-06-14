@@ -9,6 +9,7 @@ Time.zone = "EST"
 #
 activate :deploy do |deploy|
   deploy.method = :git
+  deploy.remote = "git@github.com:CodeOfficer/codeofficer.github.io.git"
   deploy.branch = "master"
 end
 
