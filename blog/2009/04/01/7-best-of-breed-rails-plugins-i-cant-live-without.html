@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/images/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/syntax.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/custom.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+    <header>
+      <div class="row-fluid">
+        <div class="span1">
+        </div>
+        <div class="span10">
+          <div class="social right">
+            <a class="google" href="https://plus.google.com/105488422714884256476" title="Google+">Google+</a>
+            <a class="twitter" href="http://twitter.com/codeofficer" title="Twitter">Twitter</a>
+            <a class="github" href="https://github.com/codeofficer" title="GitHub">GitHub</a>
+            <a class="rss" href="/feed.xml" title="RSS">RSS</a>
+          </div>
+
+          <ul class="nav nav-pills">
+            <li class="">
+              <a href="/">Home</a>
+            </li>
+
+            <li class="">
+              <a href="/archive.html">Archive</a>
+            </li>
+          </ul>
+        </div>
+        <div class="span1">
+        </div>
+      </div>
+    </header>
+
+    <div class="row-fluid">
+      <div class="span1">
+      </div>
+      <div class="span10">
+          <article>
+    <h1>7 Best of Breed Rails Plugins I Can't Live Without</h1>
+    <p><time>Apr  1, 2009</time></p>
+    <p>I am often asked about the various gems/plugins I use in my Rails apps and thought it might make for a good blog post. Most of these I have a good history with, while some I settled on only recently. Either way, this list contains what I consider to be the best of the best, for what each of them helps to accomplish. I hope you will check them out if you have not yet had a chance to.</p>
+
+<h2>REVISIONING</h2>
+
+<p><a href="http://github.com/rich/acts_as_revisable/">acts<em>as</em>revisable</a> (<a href="http://github.com/rich">rich</a>)
+A framework for building heavily versioned applications.</p>
+
+<p>acts<em>as</em>revisable is a joy to use. It doesn&rsquo;t have you create separate tables for versions like some other popular versioning plugins. The interface is very well thought out, and I&rsquo;ve yet to find something it doesn&rsquo;t do that I&rsquo;ve needed. Its heavily documented and just works!</p>
+
+<h2>TAGGING</h2>
+
+<p><a href="http://github.com/mbleigh/acts-as-taggable-on/">acts-as-taggable-on</a> (<a href="http://github.com/mbleigh">mbleigh</a>)
+A tagging plugin for Rails applications that allows for custom tagging along dynamic contexts.</p>
+
+<p>A tried various tagging solutions over the last year and finally settled on this one by mbleigh. acts-as-taggable-on-steroids and a few others never seemed to work on models build with single table inheritance (STI) or that had polymorphic relationships.</p>
+
+<h2>AUTHENTICATION</h2>
+
+<p><a href="http://github.com/binarylogic/authlogic/">authlogic</a> (<a href="http://github.com/binarylogic">binarylogic</a>)
+A clean, simple, and unobtrusive ruby authentication solution.</p>
+
+<p>Like most of the Rails community, I earned my stripes using Restful Authentication, a sexy authentication generator that got you up and running in no time at all, but it wasn&rsquo;t long after that I began to find things I didn&rsquo;t like about it. Overall, Restful Authentication felt very non-object oriented. It polluted my user model with code I hadn&rsquo;t written and it didn&rsquo;t even feel restful. Authlogic on the other hand makes no assumptions on how you&rsquo;d like to authenticate users. It lets you treat your UserSession as a model and take advantage of ActiveRecord&rsquo;s build in callbacks. Its also a Gem and easy to update. Nowadays you won&rsquo;t find me using anything else. Its also heavily documented.</p>
+
+<h2>BACKGROUND JOBS</h2>
+
+<p><a href="http://github.com/tobi/delayed_job/">delayed_job</a> (<a href="http://github.com/tobi">tobi</a>)
+Database backed asynchronous priority queue—Extracted from Shopify.</p>
+
+<p>I don’t have a lot of experience with background process plugins, I’ll admit that up front. Hands down though, this one has some slick features and is very actively developed. No complaints.</p>
+
+<h2>GIT WORKFLOW</h2>
+
+<p><a href="http://github.com/webmat/git_remote_branch/">git<em>remote</em>branch</a> (<a href="http://github.com/webmat">webmat</a>)
+A tool to simplify working with remote branches.</p>
+
+<p>If you are a frequent brancher, and need to sync local branches with your remote server there is no better way than using git<em>remote</em>branch. You can publish and track local branches in a single command. I find myself doing this a lot when I have created a branch on my laptop but want to continue where I left off on my other machine at home. It also has a helpful ‘explain’ feature to tell you exactly which commands will run should you use one of its features.</p>
+
+<h2>GEM BUILDING</h2>
+
+<p><a href="http://github.com/technicalpickles/jeweler/">jeweler</a> (<a href="http://github.com/technicalpickles">technicalpickles</a>)
+Simple and opinionated helper for creating and managing Rubygem projects on GitHub.</p>
+
+<p>I knew nothing about writing gems, and pushing them to github &hellip; 20 minutes later I had. Nuff said.</p>
+
+<h2>STATE MACHINES</h2>
+
+<p><a href="http://github.com/pluginaweek/state_machine/">state_machine</a> (<a href="http://github.com/pluginaweek">pluginaweek</a>)
+Adds support for creating state machines for attributes on any Ruby class.</p>
+
+<p>This one I found by a <a href="http://heypanda.com/">friend’s recommendation</a>. I had been using Rubyist’s Acts As State Machine (now known as AASM) and had many issues with it early on. Specifically I had been trying to cancel a transition in a callback and eventually found out it wasn’t supported. My understanding is that this plugin was originally built for Rails and later refactored to to be less dependent on it. state_machine however was built from day one to work with any Ruby class, and later integrations were added for ActiveRecord, Datamapper and Sequel. Its the best thing out there and I can’t recommend it enough. The code is a joy to look though and its heavily documented.</p>
+
+  </article>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'codeofficercom'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+      </div>
+      <div class="span1">
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-526530-11']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+  </body>
+</html>

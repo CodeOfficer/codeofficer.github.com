@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/images/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/syntax.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/custom.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+    <header>
+      <div class="row-fluid">
+        <div class="span1">
+        </div>
+        <div class="span10">
+          <div class="social right">
+            <a class="google" href="https://plus.google.com/105488422714884256476" title="Google+">Google+</a>
+            <a class="twitter" href="http://twitter.com/codeofficer" title="Twitter">Twitter</a>
+            <a class="github" href="https://github.com/codeofficer" title="GitHub">GitHub</a>
+            <a class="rss" href="/feed.xml" title="RSS">RSS</a>
+          </div>
+
+          <ul class="nav nav-pills">
+            <li class="">
+              <a href="/">Home</a>
+            </li>
+
+            <li class="">
+              <a href="/archive.html">Archive</a>
+            </li>
+          </ul>
+        </div>
+        <div class="span1">
+        </div>
+      </div>
+    </header>
+
+    <div class="row-fluid">
+      <div class="span1">
+      </div>
+      <div class="span10">
+          <article>
+    <h1>ActiveRecord and methods on your model associations</h1>
+    <p><time>Mar  8, 2009</time></p>
+    <p>I left PHP to program in Ruby a little over a year ago now, though technically I think I focused more on learning Rails during my first month. Like most who made the journey, I found Ruby a joy to work with, and Rails to have everything I needed to make great web apps. But to this day, the part of Rails I struggle the most with is ActiveRecord. There&rsquo;s just so much magic in there &hellip;</p>
+
+<p>I want to share a syntax I learned this evening for declaring methods on an association in ActiveRecord.</p>
+
+<p>In my system, Users can post content either as themselves, or as approved Affiliate identity. But since other Users might also want to post as this Affiliate, I use a has_many :through relationship to manage this. Imagine an Affiliate is a local business or organization, and Users might belong to multiple instances of them. This may explain things better.</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">Affiliate</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:affiliations</span>
+  <span class="n">has_many</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:affiliations</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:status</span>
+<span class="k">end</span>
+
+<span class="k">class </span><span class="nc">Affiliation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:affiliate</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:status</span>
+<span class="k">end</span>
+
+<span class="k">class </span><span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:affiliations</span>
+  <span class="n">has_many</span> <span class="ss">:affiliates</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:affiliations</span>
+<span class="k">end</span>
+</pre>
+<p>I needed to create a select menu for Users creating content in my system so they could select an optional alternate Affiliate identity to post as. The thing is &hellip; these relationships aren&rsquo;t cut and dry. Both the Affiliate and the Affiliation need to have a status of &lsquo;approved&rsquo; or that User cant post as that Affiliate identity.</p>
+
+<p>That said, I needed to populate this select menu for the User. At first I started thinking like this:</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:affiliations</span>
+  <span class="n">has_many</span> <span class="ss">:affiliates</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:affiliations</span>
+
+  <span class="k">def </span><span class="nf">approved_affiliates</span>
+    <span class="n">affiliates</span><span class="nf">.with_status</span><span class="p">(</span><span class="ss">:approved</span><span class="p">)</span><span class="nf">.find</span><span class="p">(</span>
+      <span class="ss">:all</span><span class="p">,</span>
+      <span class="ss">:include</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:affiliations</span><span class="o">]</span><span class="p">,</span>
+      <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;affiliations.status = 'approved'&quot;</span><span class="o">]</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="vi">@affiliates</span> <span class="o">=</span> <span class="n">current_user</span><span class="nf">.approved_affiliates.collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="nf">.name</span><span class="p">,</span> <span class="nb">p</span><span class="nf">.id.to_s</span> <span class="o">]</span> <span class="p">}</span>
+</pre>
+<p>But looking in my User model, this didn&rsquo;t seem very elegant and I wanted to find a way to keep the method definition attached to the code where I declare the association. I was already using a named<em>scope in my Affiliates model &ldquo;with</em>status(:approved)&rdquo; (not shown here) and so I thought I might be able to combine it with a similar named scope on the join.</p>
+
+<p>So, really what I needed was an association method to scope the Affiliate AND the Affiliation to have statuses of &lsquo;approved&rsquo;. Try as I might I couldn&rsquo;t figure out the syntax for this. If you know how it can be done, please do share.</p>
+
+<p>What I ended up with, and am quite happy with is &hellip;</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:affiliations</span>
+  <span class="n">has_many</span> <span class="ss">:affiliates</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:affiliations</span> <span class="k">do</span>
+    <span class="k">def </span><span class="nf">with_combined_statuses</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+      <span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span> <span class="ss">:include</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:affiliations</span><span class="o">]</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;affiliations.status = ? AND affiliates.status = ?&quot;</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">status</span><span class="o">]</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="vi">@affiliates</span> <span class="o">=</span> <span class="n">current_user</span><span class="nf">.affiliates.with_combined_statuses</span><span class="p">(</span><span class="s1">'approved'</span><span class="p">)</span><span class="nf">.collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="nf">.name</span><span class="p">,</span> <span class="nb">p</span><span class="nf">.id.to_s</span> <span class="o">]</span> <span class="p">}</span>
+</pre>
+<p>So, I learned you can pass a block to the association and declare methods there, as well, those methods can accept parameters.</p>
+
+<p>Yay me</p>
+
+  </article>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'codeofficercom'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+      </div>
+      <div class="span1">
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-526530-11']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+  </body>
+</html>

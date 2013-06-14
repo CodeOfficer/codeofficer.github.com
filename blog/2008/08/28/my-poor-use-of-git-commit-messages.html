@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/images/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/syntax.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/custom.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+    <header>
+      <div class="row-fluid">
+        <div class="span1">
+        </div>
+        <div class="span10">
+          <div class="social right">
+            <a class="google" href="https://plus.google.com/105488422714884256476" title="Google+">Google+</a>
+            <a class="twitter" href="http://twitter.com/codeofficer" title="Twitter">Twitter</a>
+            <a class="github" href="https://github.com/codeofficer" title="GitHub">GitHub</a>
+            <a class="rss" href="/feed.xml" title="RSS">RSS</a>
+          </div>
+
+          <ul class="nav nav-pills">
+            <li class="">
+              <a href="/">Home</a>
+            </li>
+
+            <li class="">
+              <a href="/archive.html">Archive</a>
+            </li>
+          </ul>
+        </div>
+        <div class="span1">
+        </div>
+      </div>
+    </header>
+
+    <div class="row-fluid">
+      <div class="span1">
+      </div>
+      <div class="span10">
+          <article>
+    <h1>My Poor Use of Git Commit Messages</h1>
+    <p><time>Aug 28, 2008</time></p>
+    <p>I began using git to manage the source code for my current project, a Rails app which I should hopefully be launching shortly. Yahoo! Now, I hadn&rsquo;t actually been using source control for very long before I began, and wasn&rsquo;t able to focus on best practices. With a wife, 2 kids and 2 jobs, I was lucky to get the coding of the apps themselves under control. That said, its funny now to look back at all my commit messages for this project.</p>
+
+<p>So it wasn&rsquo;t until recently I was able to focus my commits to specific features, changes to the code-base that stood on their own. More often, I found myself working &ldquo;everywhere&rdquo; and on &ldquo;everything&rdquo; all at once. I wonder how many other people start off this way.</p>
+
+<p>Well, 127 commits behind me, I took a moment to browse back through the messages of my project. Its amazing to see how useless they are, time to get better at it I guess.</p>
+
+<ul>
+<li>initial rails import</li>
+<li>first rails 2.1 import</li>
+<li>adding in the input_css plugin</li>
+<li>configuring for a git deploy</li>
+<li>some deploy edits</li>
+<li>removing fast sessions</li>
+<li>removing vendor/rails</li>
+<li>adding back in rails 2.1RC</li>
+<li>fixed categorizable</li>
+<li>testing</li>
+<li>in progress</li>
+<li>tagging works as best it can now until better searching is implemented</li>
+<li>before trying permalink_fu</li>
+<li>removing tm project file</li>
+<li>annotating models</li>
+<li>ajaxified some pagination and refactored page<em>titles and will</em>paginate helpers</li>
+<li>retooling index views on my resources</li>
+<li>just before changing categories to be acts<em>as</em>list</li>
+<li>massive changes to how we store categories, now a list and not a tree</li>
+<li>simplifying event searches</li>
+<li>starting to add thumbnail support to listings</li>
+<li>most image thumbs appear as expected</li>
+<li>cached category list to db, fixes to admin and public pages in regards to ajaxification of pagination</li>
+<li>refactoring my tabs renderer</li>
+<li>working on what can be deleted and its consequences</li>
+<li>removing deleted_at from affiliates</li>
+<li>adding in a fixtures dump task</li>
+<li>renaming the rake task</li>
+<li>refactored affiliates and listings</li>
+<li>altering the display of list view for events and such</li>
+<li>before meeting</li>
+<li>adding in the textmate footnotes plugin</li>
+<li>bug fix in lib/mappable.rb</li>
+<li>new tabs_renderer, accepts options now on the main div</li>
+<li>removing rails 2.1 RC</li>
+<li>last minute adds</li>
+<li>adding rails 2.1 offical</li>
+<li>adding in ultrashinx, about to take out rails 2.1 final and put in edge to get rid of depreciation warnings</li>
+<li>removed rails 2.1</li>
+<li>rails edge for 2.1+ frozen</li>
+<li>updated gitignore</li>
+<li>gonna play with ez-where</li>
+<li>removing ultrasphinx, adding ez_where</li>
+<li>removing aatos</li>
+<li>LOTTA STUFF - EEEEEEK</li>
+<li>nuttin</li>
+<li>before trying a fulltext solution</li>
+<li>mid stride with ez_where and tsearch</li>
+<li>about to go back to mysql!!!! &gt;.&lt;</li>
+<li>before revamping categories again!</li>
+<li>caring for old deletions</li>
+<li>categories now work via categorizations!!!</li>
+<li>annotated my models</li>
+<li>spacial search, pagination, and conditional finds working well</li>
+<li>now using ez::where</li>
+<li>mostly removed old search</li>
+<li>getting there!!!</li>
+<li>closer!!!!</li>
+<li>well i thought i was getting somewhere</li>
+<li>many to many with users-affiliates</li>
+<li>slowly getting there .. hope i am ready by tuesday</li>
+<li>mid stride &hellip; as usual</li>
+<li>lambda in perm check</li>
+<li>quick fix?</li>
+<li>disabling perm checks</li>
+<li>broken as all hell</li>
+<li>added new jrails</li>
+<li>on my way</li>
+<li>before removing acts<em>as</em>paranoid</li>
+<li>replaced acts<em>as</em>paranoid</li>
+<li>added scope builder, removing the admin namespace slowly</li>
+<li>temp commit &hellip; nothing special</li>
+<li>updating model annotations</li>
+<li>changing the deploy file</li>
+<li>test</li>
+<li>large overhaul to partials etc</li>
+<li>securing the approvals controller</li>
+<li>correcting a find more by affiliate/user link issue</li>
+<li>done refactoring partials, except maybe for locations and attachments</li>
+<li>adding an indexing rake task for deployment</li>
+<li>small edits</li>
+<li>fixing listings views with affiliates</li>
+<li>tag &lsquo;listings&rsquo; are not more specific</li>
+<li>highlighting for section and category navigation</li>
+<li>nothing</li>
+<li>adding css to space out forms</li>
+<li>1st round of changes</li>
+<li>no really, 1st round &hellip;.. &gt;.&lt;</li>
+<li>removing query trace plugin</li>
+<li>20 of 50 changes</li>
+<li>20 more taken care of</li>
+<li>removing most dumb files</li>
+<li>adding full address abilities to user affiliate job even classified</li>
+<li>same as before</li>
+<li>adding in addresses</li>
+<li>working with addresses</li>
+<li>removing sti on addresses</li>
+<li>removing billing and shipping formats</li>
+<li>yo mamma</li>
+<li>added status notifications to listings#show too</li>
+<li>lots of changes, biggest was switching attachment<em>fu to only use core</em>image for resizing</li>
+<li>fix the comments view, forgot a div end</li>
+<li>removing attachement_fu&rsquo;s test db</li>
+<li>tweaking affiliate and user show pages</li>
+<li>jobs are now &lsquo;available&rsquo; or &lsquo;wanted&rsquo;</li>
+<li>jobs are now fully defined as wanted or available</li>
+<li>nothing much</li>
+<li>altering user perms</li>
+<li>removing some files</li>
+<li>added in my asset manager plugin (gulp)</li>
+<li>removing jrails</li>
+<li>removing input css</li>
+<li>annotating models</li>
+<li>moving things</li>
+<li>adding new date and time formats, a few other initializers</li>
+<li>re-arranging helpers for file attachments</li>
+<li>adding thickbox dependencies for a few view helpers</li>
+<li>attachment validations still arent working &gt;.&lt; WTF!</li>
+<li>adding sensible page titles</li>
+<li>some view edits for how minical icons display in the events section</li>
+<li>small perm check on users display</li>
+<li>basic history of listings</li>
+<li>lots of permissions changes</li>
+<li>commit before i play with superfish</li>
+<li>added superfish</li>
+<li>adding new user tab info</li>
+<li>bout to get serious!!!</li>
+<li>removing vendor/query_analyzer</li>
+<li>updating some tabs helpers</li>
+<li>does this work?</li>
+<li>fixed the user_tab parial</li>
+<li>added the ability for a user to change their default address</li>
+<li>corrected a bug in making an address default for a user</li>
+</ul>
+
+  </article>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'codeofficercom'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+      </div>
+      <div class="span1">
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-526530-11']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+  </body>
+</html>

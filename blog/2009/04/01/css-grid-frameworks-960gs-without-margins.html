@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/images/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/syntax.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/custom.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+    <header>
+      <div class="row-fluid">
+        <div class="span1">
+        </div>
+        <div class="span10">
+          <div class="social right">
+            <a class="google" href="https://plus.google.com/105488422714884256476" title="Google+">Google+</a>
+            <a class="twitter" href="http://twitter.com/codeofficer" title="Twitter">Twitter</a>
+            <a class="github" href="https://github.com/codeofficer" title="GitHub">GitHub</a>
+            <a class="rss" href="/feed.xml" title="RSS">RSS</a>
+          </div>
+
+          <ul class="nav nav-pills">
+            <li class="">
+              <a href="/">Home</a>
+            </li>
+
+            <li class="">
+              <a href="/archive.html">Archive</a>
+            </li>
+          </ul>
+        </div>
+        <div class="span1">
+        </div>
+      </div>
+    </header>
+
+    <div class="row-fluid">
+      <div class="span1">
+      </div>
+      <div class="span10">
+          <article>
+    <h1>CSS Grid Frameworks: 960gs Without Margins</h1>
+    <p><time>Apr  1, 2009</time></p>
+    <p>I&rsquo;ve been using the <a href="http://www.blueprintcss.org/">Blueprint</a> and <a href="http://960.gs/">960gs</a> CSS Frameworks for a while now and have had but one complaint: they both assume you want to create your layouts with margins between the columns. Unfortunately, in my own use of these frameworks I&rsquo;ve found that I work more with inner columns than exterior ones, and the default margin styles were a nuisance then.</p>
+
+<p>So &hellip; I forked <a href="http://github.com/nathansmith/960-grid-system/">Nathan Smith&rsquo;s 960gs</a> and recalculated the grid styling to remove the column margins. Now when I declare any two columns side by side, they will be flush against each other. Perhaps others will find this useful as well. I left the reset.css and text.css styles as they were.</p>
+
+<p>You can find my code <a href="http://github.com/CodeOfficer/960-grid-system-without-margins/">here</a>.</p>
+
+<p>One final note: I&rsquo;ve been using 960gs a lot more than Blueprint lately because I&rsquo;ve found Blueprints text styles make too many assumptions on my behalf for how I would like my text to layout. 960gs in comparison is quite minimal.</p>
+
+<p><img alt="960 Grid" src="/images/mine/960cssgrid.gif" /></p>
+
+  </article>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'codeofficercom'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+      </div>
+      <div class="span1">
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-526530-11']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+  </body>
+</html>
