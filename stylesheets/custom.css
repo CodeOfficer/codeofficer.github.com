@@ -1,12 +1,17 @@
-header {
-margin-top: 15px;
+
+ul.nav.social-icons {
+  text-align: center;
 }
 
-header .social {
-float: right;
+ul.nav.social-icons > li {
+  display: inline-block;
 }
 
-header .social a {
+ul.nav.social-icons > li > a {
+  padding: 0px;
+}
+
+ul.nav.social-icons > li > a {
 -moz-border-radius:50%;
 -webkit-border-radius:50%;
 -o-border-radius:50%;
@@ -16,6 +21,7 @@ border-radius:50%;
 -moz-box-orient:vertical;
 vertical-align:auto;
 text-indent:-9999px;
+margin-top:5px;
 margin-right:15px;
 opacity:0.5;
 width:28px;
@@ -27,64 +33,63 @@ transition:.3s;
 display:inline-block;
 }
 
-header .social a:hover {
+ul.nav.social-icons > li > a:hover {
 opacity:1;
 }
 
-header .social a.facebook {
+ul.nav.social-icons > li > a.facebook {
 background:url(/images/facebook.png?1334462681) center no-repeat #3b5998;
 border:1px solid #3B5998;
 }
 
-header .social a.facebook:hover {
+ul.nav.social-icons > li > a.facebook:hover {
 border:1px solid #2d4373;
 }
 
-header .social a.google {
+ul.nav.social-icons > li > a.google {
 background:url(/images/google.png?1334462681) center no-repeat #c83d20;
 border:1px solid #C83D20;
 }
 
-header .social a.google:hover {
+ul.nav.social-icons > li > a.google:hover {
 border:1px solid #9c3019;
 }
 
-header .social a.twitter {
+ul.nav.social-icons > li > a.twitter {
 background:url(/images/twitter.png?1334462681) center no-repeat #55cff8;
 border:1px solid #55CFF8;
 }
 
-header .social a.twitter:hover {
+ul.nav.social-icons > li > a.twitter:hover {
 border:1px solid #24c1f6;
 }
 
-header .social a.github {
+ul.nav.social-icons > li > a.github {
 background:url(/images/github.png?1334462681) center no-repeat #afb6ca;
 border:1px solid #afb6ca;
 }
 
-header .social a.github:hover {
+ul.nav.social-icons > li > a.github:hover {
 border:1px solid #909ab6;
 }
 
-header .social a.pinterest {
+ul.nav.social-icons > li > a.pinterest {
 background:url(/images/pinterest.png?1334462681) center no-repeat #be4037;
 border:1px solid #be4037;
 }
 
-header .social a.pinterest:hover {
+ul.nav.social-icons > li > a.pinterest:hover {
 border:1px solid #96332c;
 }
 
-header .social a.rss {
+ul.nav.social-icons > li > a.rss {
 background:url(/images/rss.png?1334462681) center no-repeat #ef7522;
 border:1px solid #EF7522;
 }
 
-header .social a.rss:hover {
+ul.nav.social-icons > li > a.rss:hover {
 border:1px solid #cf5d0f;
 }
-
 
 .video-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; }
 .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
