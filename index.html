@@ -94,7 +94,8 @@
 <pre class="highlight javascript"><span class="nx">store</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'mapFloor'</span><span class="p">,</span> <span class="s1">'1.2'</span><span class="p">);</span>
 </pre>
 <p>Where <code>1.2</code> would expand to to the appropriate endpoint URL. My changes seemed appropriate for the adapter, especially since I also wanted to pass those values back to the serializer. This is the custom adapter I ended up with for my MapFloor model.</p>
-<pre class="highlight javascript"><span class="nx">App</span><span class="p">.</span><span class="nx">MapFloorAdapter</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">ApplicationAdapter</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<pre class="highlight javascript"><span class="c1">// App.ApplicationAdapter = DS.ActiveModelAdapter.extend();
+</span><span class="nx">App</span><span class="p">.</span><span class="nx">MapFloorAdapter</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">ApplicationAdapter</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
   <span class="na">parseId</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">values</span> <span class="o">=</span> <span class="nx">id</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">'.'</span><span class="p">);</span>
