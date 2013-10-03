@@ -52,6 +52,7 @@ store.find('mapFloor', '1.2');
 Where `1.2` would expand to to the appropriate endpoint URL. My changes seemed appropriate for the adapter, especially since I also wanted to pass those values back to the serializer. This is the custom adapter I ended up with for my MapFloor model.
 
 ``` javascript
+// App.ApplicationAdapter = DS.ActiveModelAdapter.extend();
 App.MapFloorAdapter = App.ApplicationAdapter.extend({
 
   parseId: function(id) {
