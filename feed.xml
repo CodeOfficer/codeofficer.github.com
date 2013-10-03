@@ -5,10 +5,94 @@
   <id>http://codeofficer.com/</id>
   <link href="http://codeofficer.com/"/>
   <link href="http://codeofficer.com/feed.xml" rel="self"/>
-  <updated>2012-04-14T07:21:00Z</updated>
+  <updated>2013-10-03T20:11:00Z</updated>
   <author>
     <name>Russell Jones</name>
   </author>
+  <entry>
+    <title>Ember Data: Faking a Composite Key</title>
+    <link rel="alternate" href="/blog/2013/10/03/ember-data-faking-a-composite-key.html"/>
+    <id>/blog/2013/10/03/ember-data-faking-a-composite-key.html</id>
+    <published>2013-10-03T20:11:00Z</published>
+    <updated>2013-10-03T20:11:00Z</updated>
+    <author>
+      <name>Russell Jones</name>
+    </author>
+    <content type="html">&lt;p&gt;I play a game in my spare time called Guild Wars 2 which recently made a public API for their community to build applications against. Among other things, it allows you to query for game events as they are happening in real time, which helps you play more efficiently. I started working on a little side project which takes it a step further and draws you a map of the surrounding area. It&amp;rsquo;s a work in progress, but you can &lt;a href="https://github.com/CodeOfficer/guild-wars-2-event-notifier"&gt;check it out&lt;/a&gt; on Github.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been working with &lt;a href="http://emberjs.com/"&gt;Ember&lt;/a&gt; and &lt;a href="https://github.com/emberjs/data"&gt;Ember Data&lt;/a&gt; for a little over a year now and use this project as a study to keep up on their latest and greatest features. I can&amp;rsquo;t say enough good things about Ember as a framework for javascript web applications, but this post is really about Ember Data.&lt;/p&gt;
+
+&lt;p&gt;While Ember Data has had its growing pains as a persistance library it&amp;rsquo;s shaping up quite nicely. I like how the new Beta&amp;rsquo;s adapter and serializer allow you to customize data coming into and going out of your app on a per-model basis. Particularly when building for a 3rd party API, you really need proper hooks to fine-tune the data exchange with your RESTful backend.&lt;/p&gt;
+
+&lt;p&gt;In earlier versions of Ember Data I found myself having to copy/paste/edit sizable chunks of library code into my own custom adapter or serializer. The necessary hooks were not present. This time around, I&amp;rsquo;m finding hooks in all the right places.&lt;/p&gt;
+
+&lt;p&gt;Straight from my project, here&amp;rsquo;s an example customization I did for the MapFloor model:&lt;/p&gt;
+
+&lt;h3&gt;MapFloor Model&lt;/h3&gt;
+
+&lt;p&gt;The json for the MapFloor endpoint does not return an &lt;code&gt;id&lt;/code&gt; attribute. If you insert a model into the store without an &amp;lsquo;id&amp;rsquo;, the store will not know how to uniquely identiy that model from others of that type. One solution is to sythensize your own &amp;lsquo;id&amp;rsquo; in the returned json. This is something you would usually do in the serializer for the model.&lt;/p&gt;
+
+&lt;p&gt;Complicating matters, the MapFloor endpoint also requires two &lt;code&gt;ids&lt;/code&gt; to fetch a single MapFloor, composed of a &lt;code&gt;continent_id&lt;/code&gt; and a &lt;code&gt;floor&lt;/code&gt; &amp;hellip; yet the json reponse does not return those values at all.&lt;/p&gt;
+
+&lt;p&gt;To clarify, this is what I need to hit:&lt;/p&gt;
+&lt;pre class="highlight text"&gt;https://api.guildwars2.com/v1/map_floor?continent_id=1&amp;amp;floor=2
+&lt;/pre&gt;
+&lt;p&gt;And this is what I get back:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="c1"&gt;// notice there is no 'id' in this payload
+&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s2"&gt;&amp;quot;texture_dims&amp;quot;&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="mi"&gt;32768&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="mi"&gt;32768&lt;/span&gt;
+  &lt;span class="p"&gt;],&lt;/span&gt;
+  &lt;span class="s2"&gt;&amp;quot;regions&amp;quot;&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// lots of data map floor data
+&lt;/span&gt;    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;I felt I really wanted to be able to do something like:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;store&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'mapFloor'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'1.2'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Where &lt;code&gt;1.2&lt;/code&gt; would expand to to the appropriate endpoint URL. My changes seemed appropriate for the adapter, especially since I also wanted to pass those values back to the serializer. This is the custom adapter I ended up with for my MapFloor model.&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;App&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;MapFloorAdapter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;App&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ApplicationAdapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+
+  &lt;span class="na"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'.'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="na"&gt;continent_id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+      &lt;span class="na"&gt;floor_id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;};&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+
+  &lt;span class="na"&gt;buildURL&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;?continent_id=%@&amp;amp;floor=%@&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fmt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'continent_id'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'floor_id'&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;_super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+
+  &lt;span class="na"&gt;find&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;store&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ajax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;buildURL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;typeKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;'GET'&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;continent_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'continent_id'&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;floor_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'floor_id'&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+
+  &lt;span class="na"&gt;pathForType&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;Ember&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;String&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;underscore&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;My custom implementation of &lt;code&gt;find&lt;/code&gt; parses my fake composite &lt;code&gt;id&lt;/code&gt; and remembers its &lt;code&gt;continent_id&lt;/code&gt; and &lt;code&gt;floor_id&lt;/code&gt; values. Those values are used to construct the endpoint URL and also set values on the returned json. All this will later get handed off to the serializer and because the payload now includes a sythesized &lt;code&gt;id&lt;/code&gt; the store will be happy and able to uniquely identify this specific MapFloor in the future.&lt;/p&gt;
+
+&lt;p&gt;Lastly, I overrode &lt;code&gt;pathForType&lt;/code&gt; since I needed to hit a singularized version of the resource URL.&lt;/p&gt;
+
+&lt;p&gt;Hope you find this approach to faking a composite key in Ember Data useful.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Custom Built Guild Wars 2 Gaming Rig</title>
     <link rel="alternate" href="/blog/2012/04/14/custom-built-guild-wars-2-gaming-rig.html"/>
@@ -379,37 +463,6 @@ This will create:
 &lt;p&gt;UPDATE May 11, 2010:
 Rails has their own port to jQuery that is better maintained now.
 &lt;a href="http://github.com/rails/jquery-ujs"&gt;http://github.com/rails/jquery-ujs&lt;/a&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Intridea discovers a great tech community in Portland Maine</title>
-    <link rel="alternate" href="/blog/2009/06/20/intridea-discovers-a-great-tech-community-in-portland-maine.html"/>
-    <id>/blog/2009/06/20/intridea-discovers-a-great-tech-community-in-portland-maine.html</id>
-    <published>2009-06-20T10:16:00Z</published>
-    <updated>2009-06-20T10:16:00Z</updated>
-    <author>
-      <name>Russell Jones</name>
-    </author>
-    <content type="html">&lt;p&gt;This week I had the pleasure of attending &lt;a href="http://intridea.com/hackon"&gt;Hackon&lt;/a&gt;, a FREE 3 day technology event thrown by Intridea here in Portland, Maine. It took place at the &lt;a href="http://www.portlandharborhotel.com/"&gt;Portland Harbor Hotel&lt;/a&gt; and was organized by &lt;a href="http://www.adambair.com/"&gt;Adam Bair&lt;/a&gt;, a local friend, Ruby enthusiast and employee of &lt;a href="http://intridea.com/"&gt;Intridea&lt;/a&gt;. Adam did a wonderful Job of organizing the event. Many thanks to Intridea for making it all possible!&lt;/p&gt;
-
-&lt;p&gt;The first 2 days of the event were mostly an open format. Guests brought their laptops and worked off the Hotel&amp;rsquo;s wireless. I honestly don&amp;rsquo;t think I &amp;ldquo;worked&amp;rdquo; very much that 1st day. Instead, I had a wonderful time greeting the attendees, many of whom I had not met before. Surprisingly not everyone was a developer but we had tons to talk about and Day 1 flew by without warning. Thankfully, I did manage to spend most of my time programming on Day 2.&lt;/p&gt;
-
-&lt;p&gt;I had a very interesting conversation with &lt;a href="http://fettig.net/about/"&gt;Abe Fettig&lt;/a&gt;, a Google employee living here in town. He was nice enough to spend a couple hours live coding some Javascript at my request, giving me a great review of prototypal inheritance. I learned so much from our talk. That conversation was really something money couldn&amp;rsquo;t buy and I&amp;rsquo;m still soaking it in! Thanks Abe!&lt;/p&gt;
-
-&lt;p&gt;Throughout the event, I discussed with Abe and others a rather complex project I have been working on that makes heavy use of Javascript. I introduced quite a few of these people to &lt;a href="http://code.quirkey.com/sammy/"&gt;Sammy&lt;/a&gt;, a relatively new jQuery plugin I have decided to use in my project. I am a huge fan of this plugin! It allows you to define Javascript applications as objects attached to your DOM in such a way that makes complicated client side apps easier to manage. Its heavily based on Ruby&amp;rsquo;s &lt;a href="http://www.sinatrarb.com/"&gt;Sinatra&lt;/a&gt; gem and very easy to use.&lt;/p&gt;
-
-&lt;p&gt;Day 3 offered a number of very interesting presentations:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="http://justbeast.livejournal.com/"&gt;Dimitri&lt;/a&gt; demonstrated a web framework written in &lt;a href="http://en.wikipedia.org/wiki/Smalltalk"&gt;Smalltalk&lt;/a&gt; called Seaside.&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://hackingsearch.com/"&gt;Ryan Smith&lt;/a&gt; spoke on improving Apache configurations.&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://www.tiffanyrad.com/"&gt;Tiffany Rad&lt;/a&gt; and Nothingface spoke about a VERY cool open source hardware hacking project called &lt;a href="https://secure.area49.net/openotto/"&gt;OpenOtto&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://inkfist.com/"&gt;Bogart Zalzberg&lt;/a&gt; described &lt;a href="http://inkfist.com/postfix_talk/"&gt;a humorous story&lt;/a&gt; of a poorly configured Postfix installation.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I am anxious to see if Indridea will host Hackon again next year. I still can&amp;rsquo;t believe this was a free event. In Maine, its so difficult to find the variety and caliber of tech folks that were in attendance in one place. I imagine that &lt;a href="http://techmaine.com/"&gt;TechMaine&lt;/a&gt; would benefit from hosting similar events.&lt;/p&gt;
-
-&lt;p&gt;And oohh look, I guess some &lt;a href="http://gallery.me.com/codeofficer#100071"&gt;photos were taken&lt;/a&gt; of the event!&lt;/p&gt;
 </content>
   </entry>
 </feed>
