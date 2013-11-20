@@ -32,7 +32,7 @@
 
           <div class="nav-collapse collapse navbar-responsive-collapse">
             <ul class="nav">
-              <li class="active">
+              <li class="">
                 <a href="/">Home</a>
               </li>
               <li class="">
@@ -52,10 +52,10 @@
     </div>
 
     <div class="container">
-      
-  <h2><a href="/blog/2013/11/20/preloading-fixture-data-with-ember-app-kit.html">Preloading Fixture Data with Ember App Kit</a></h2>
-  <p><time>Nov 20, 2013</time></p>
-  <p>I&rsquo;m currently using <a href="https://github.com/stefanpenner/ember-app-kit">Ember App Kit</a> on a client project and really enjoying the environment. Javascript build tools are what they are but Stefan Penner and crew have done a phenomenal job at making them not suck. I am ever so grateful.</p>
+        <article>
+    <h1>Preloading Fixture Data with Ember App Kit</h1>
+    <p><time>Nov 20, 2013</time></p>
+    <p>I&rsquo;m currently using <a href="https://github.com/stefanpenner/ember-app-kit">Ember App Kit</a> on a client project and really enjoying the environment. Javascript build tools are what they are but Stefan Penner and crew have done a phenomenal job at making them not suck. I am ever so grateful.</p>
 
 <p>Application needs vary of course, but mine delivers 85% of its data up front in one big payload. It&rsquo;s safe for me to assume in production that this data will be there when the app is run, and data that isn&rsquo;t will be fetched as needed via the RESTAdapter. In development and testing however, I&rsquo;m using the FixtureAdapter which unfortunately doesn&rsquo;t autoload non-async relationships defined in the model, even though the fixture data is there. I needed this data to behave in development and testing as it would in production. Fortunately, I stumbled upon <a href="http://amalgamated.io/emberjs-and-fixtures/">a blog post</a> over at <strong>Amalgamated Magic</strong>.</p>
 
@@ -92,6 +92,23 @@
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
 </pre>
 <p>Enjoy.</p>
+
+  </article>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'codeofficercom'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
     </div>

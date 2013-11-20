@@ -5,10 +5,58 @@
   <id>http://codeofficer.com/</id>
   <link href="http://codeofficer.com/"/>
   <link href="http://codeofficer.com/feed.xml" rel="self"/>
-  <updated>2013-10-03T20:11:00Z</updated>
+  <updated>2013-11-20T21:11:00Z</updated>
   <author>
     <name>Russell Jones</name>
   </author>
+  <entry>
+    <title>Preloading Fixture Data with Ember App Kit</title>
+    <link rel="alternate" href="/blog/2013/11/20/preloading-fixture-data-with-ember-app-kit.html"/>
+    <id>/blog/2013/11/20/preloading-fixture-data-with-ember-app-kit.html</id>
+    <published>2013-11-20T21:11:00Z</published>
+    <updated>2013-11-20T21:11:00Z</updated>
+    <author>
+      <name>Russell Jones</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;m currently using &lt;a href="https://github.com/stefanpenner/ember-app-kit"&gt;Ember App Kit&lt;/a&gt; on a client project and really enjoying the environment. Javascript build tools are what they are but Stefan Penner and crew have done a phenomenal job at making them not suck. I am ever so grateful.&lt;/p&gt;
+
+&lt;p&gt;Application needs vary of course, but mine delivers 85% of its data up front in one big payload. It&amp;rsquo;s safe for me to assume in production that this data will be there when the app is run, and data that isn&amp;rsquo;t will be fetched as needed via the RESTAdapter. In development and testing however, I&amp;rsquo;m using the FixtureAdapter which unfortunately doesn&amp;rsquo;t autoload non-async relationships defined in the model, even though the fixture data is there. I needed this data to behave in development and testing as it would in production. Fortunately, I stumbled upon &lt;a href="http://amalgamated.io/emberjs-and-fixtures/"&gt;a blog post&lt;/a&gt; over at &lt;strong&gt;Amalgamated Magic&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Below, I&amp;rsquo;ve made their solution work for Ember App Kit. I believe there are plans to make EAK&amp;rsquo;s resolver better at loading initializers for you, but for now this works.&lt;/p&gt;
+
+&lt;p&gt;In &lt;code&gt;app/initializers/force_load_fixtures&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;initializer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;force load fixtures&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="na"&gt;after&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;store&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="na"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;application&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;store&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;lookup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;store:main&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="nx"&gt;Ember&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;keys&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;requirejs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;_eak_seen&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;!!&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sr"&gt;/^appkit\/models\//&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;DS&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;detect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+    &lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;typeKey&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sr"&gt;/^appkit\/models\/(.*)/&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;FIXTURES&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;store&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;pushMany&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;typeKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;FIXTURES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt; &lt;span class="nx"&gt;initializer&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Then in &lt;code&gt;app.js&lt;/code&gt; load and execute our initializer:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;forceLoadFixturesInitializer&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;appkit/initializers/force_load_fixtures&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;App&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Ember&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Application&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="nx"&gt;Ember&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Application&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;initializer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;forceLoadFixturesInitializer&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt; &lt;span class="nx"&gt;App&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Enjoy.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Ember Data: Faking a Composite Key</title>
     <link rel="alternate" href="/blog/2013/10/03/ember-data-faking-a-composite-key.html"/>
@@ -38,7 +86,7 @@
 &lt;pre class="highlight text"&gt;https://api.guildwars2.com/v1/map_floor?continent_id=1&amp;amp;floor=2
 &lt;/pre&gt;
 &lt;p&gt;And this is what I get back:&lt;/p&gt;
-&lt;pre class="highlight javascript"&gt;&lt;span class="c1"&gt;// notice there is no 'id' in this payload
+&lt;pre class="highlight javascript"&gt;&lt;span class="c1"&gt;// notice there is no &amp;#39;id&amp;#39; in this payload
 &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="s2"&gt;&amp;quot;texture_dims&amp;quot;&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
     &lt;span class="mi"&gt;32768&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -51,14 +99,14 @@
 &lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;I felt I really wanted to be able to do something like:&lt;/p&gt;
-&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;store&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'mapFloor'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'1.2'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;pre class="highlight javascript"&gt;&lt;span class="nx"&gt;store&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mapFloor&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1.2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;Where &lt;code&gt;1.2&lt;/code&gt; would expand to to the appropriate endpoint URL. My changes seemed appropriate for the adapter, especially since I also wanted to pass those values back to the serializer. This is the custom adapter I ended up with for my MapFloor model.&lt;/p&gt;
 &lt;pre class="highlight javascript"&gt;&lt;span class="c1"&gt;// App.ApplicationAdapter = DS.ActiveModelAdapter.extend();
 &lt;/span&gt;&lt;span class="nx"&gt;App&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;MapFloorAdapter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;App&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ApplicationAdapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
 
   &lt;span class="na"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'.'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
       &lt;span class="na"&gt;continent_id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
       &lt;span class="na"&gt;floor_id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -67,16 +115,16 @@
 
   &lt;span class="na"&gt;buildURL&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
       &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;?continent_id=%@&amp;amp;floor=%@&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fmt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'continent_id'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'floor_id'&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+      &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;?continent_id=%@&amp;amp;floor=%@&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fmt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;continent_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;floor_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;_super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
   &lt;span class="p"&gt;},&lt;/span&gt;
 
   &lt;span class="na"&gt;find&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;store&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ajax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;buildURL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;typeKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;'GET'&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ajax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;buildURL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;typeKey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
       &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;continent_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'continent_id'&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
-      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;floor_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'floor_id'&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;continent_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;continent_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;floor_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;parseId&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;floor_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="p"&gt;});&lt;/span&gt;
   &lt;span class="p"&gt;},&lt;/span&gt;
@@ -105,10 +153,10 @@
     </author>
     <content type="html">&lt;p&gt;My good friend &lt;a href="mailto:john1253113@gmail.com"&gt;John Coppola&lt;/a&gt; recently told me that he had built his own CNC machine from scratch. Soon afterwards we discussed the idea that he would build my next gaming computer. I knew from personal experience how killer John&amp;rsquo;s computers were &amp;hellip; he&amp;rsquo;s very meticulous, and really enjoys a cutom build. As excited as I was, I really didn&amp;rsquo;t know what to expect when he told me this one would be 100% of his own making, but I&amp;rsquo;ll get back to this &amp;hellip;&lt;/p&gt;
 
-&lt;div class="video-container"&gt;
+&lt;p class="video-container"&gt;
   &lt;iframe src="http://youtube.com/embed/HszCWPcsnFA?rel=0" frameborder="0" allowfullscreen&gt;
   &lt;/iframe&gt;
-&lt;/div&gt;
+&lt;/p&gt;
 
 &lt;p&gt;In truth, I haven&amp;rsquo;t gamed much since 2006 when my wife and I got married, bought a house and had our first baby. I was a year or so into &lt;a href="http://us.battle.net/wow/en/"&gt;World of Warcraft&lt;/a&gt; then and had been agressively playing MMOs since 2001. I&amp;rsquo;d have dropped gaming all together that year if it weren&amp;rsquo;t for my fortunate discovery of Guild Wars.&lt;/p&gt;
 
@@ -220,12 +268,12 @@ following diagram and schema:&lt;/p&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;We might deal directly with the join table to assign our additonal data.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'User 1'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Group&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Group 1'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;User 1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Group&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Group 1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="vi"&gt;@membership&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Membership&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
   &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="nf"&gt;.user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="vi"&gt;@user&lt;/span&gt;
   &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="nf"&gt;.group&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="vi"&gt;@group&lt;/span&gt;
-  &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="nf"&gt;.role&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'admin'&lt;/span&gt;
+  &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="nf"&gt;.role&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;admin&amp;#39;&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.admin?&lt;/span&gt; &lt;span class="c1"&gt;# =&amp;gt; true&lt;/span&gt;
 &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.editor?&lt;/span&gt; &lt;span class="c1"&gt;# =&amp;gt; false&lt;/span&gt;
@@ -241,11 +289,11 @@ following diagram and schema:&lt;/p&gt;
   &lt;span class="n"&gt;has_many&lt;/span&gt; &lt;span class="ss"&gt;:groups&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:through&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:memberships&lt;/span&gt;
 
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;admin?&lt;/span&gt;
-    &lt;span class="n"&gt;memberships&lt;/span&gt;&lt;span class="nf"&gt;.where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'admin'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.first&lt;/span&gt;
+    &lt;span class="n"&gt;memberships&lt;/span&gt;&lt;span class="nf"&gt;.where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;admin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.first&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 
   &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;editor?&lt;/span&gt;
-    &lt;span class="n"&gt;memberships&lt;/span&gt;&lt;span class="nf"&gt;.where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'editor'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.first&lt;/span&gt;
+    &lt;span class="n"&gt;memberships&lt;/span&gt;&lt;span class="nf"&gt;.where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;editor&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;.first&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/pre&gt;&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Membership&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
@@ -257,16 +305,16 @@ following diagram and schema:&lt;/p&gt;
   &lt;span class="n"&gt;has_many&lt;/span&gt; &lt;span class="ss"&gt;:users&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:through&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:memberships&lt;/span&gt;
 
   &lt;span class="n"&gt;has_many&lt;/span&gt; &lt;span class="ss"&gt;:admins&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:through&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:memberships&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:source&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="ss"&gt;:conditions&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;memberships.role = 'admin'&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="ss"&gt;:conditions&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;memberships.role = &amp;#39;admin&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
       &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;admin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;proxy_association&lt;/span&gt;&lt;span class="nf"&gt;.owner.memberships.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'admin'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;admin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;proxy_association&lt;/span&gt;&lt;span class="nf"&gt;.owner.memberships.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;admin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;admin&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
       &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 
   &lt;span class="n"&gt;has_many&lt;/span&gt; &lt;span class="ss"&gt;:editors&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:through&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:memberships&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:source&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="ss"&gt;:conditions&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;memberships.role = 'editor'&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="ss"&gt;:conditions&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;memberships.role = &amp;#39;editor&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
       &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;editor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;proxy_association&lt;/span&gt;&lt;span class="nf"&gt;.owner.memberships.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'editor'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;editor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;proxy_association&lt;/span&gt;&lt;span class="nf"&gt;.owner.memberships.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:role&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;editor&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:user&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;editor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
       &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
@@ -280,14 +328,14 @@ role assignment of &amp;lsquo;admin&amp;rsquo;.&lt;/p&gt;
 &lt;span class="vi"&gt;@user&lt;/span&gt;&lt;span class="nf"&gt;.editor?&lt;/span&gt; &lt;span class="c1"&gt;# =&amp;gt; false&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;Pretty expressive, thanks to ActiveRecord!&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'test_helper'&lt;/span&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;test_helper&amp;#39;&lt;/span&gt;
 
 &lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;GroupTest&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveSupport&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;TestCase&lt;/span&gt;
   &lt;span class="n"&gt;setup&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-    &lt;span class="vi"&gt;@user_1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'User 1'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="vi"&gt;@user_2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'User 2'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="vi"&gt;@user_3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'User 3'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="vi"&gt;@group&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Group&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Group 1'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@user_1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;User 1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@user_2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;User 2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@user_3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;User 3&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@group&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Group&lt;/span&gt;&lt;span class="nf"&gt;.create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Group 1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 
   &lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;No Memberships&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
@@ -300,16 +348,16 @@ role assignment of &amp;lsquo;admin&amp;rsquo;.&lt;/p&gt;
     &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_1&lt;/span&gt;&lt;span class="nf"&gt;.memberships.first.role&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kp"&gt;nil&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 
-  &lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;@group.admins &amp;lt;&amp;lt; @user_2 sets 'admin' role on membership&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;@group.admins &amp;lt;&amp;lt; @user_2 sets &amp;#39;admin&amp;#39; role on membership&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
     &lt;span class="vi"&gt;@group&lt;/span&gt;&lt;span class="nf"&gt;.admins&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="vi"&gt;@user_2&lt;/span&gt;
     &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_2&lt;/span&gt;&lt;span class="nf"&gt;.memberships.count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_2&lt;/span&gt;&lt;span class="nf"&gt;.memberships.first.role&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'admin'&lt;/span&gt;
+    &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_2&lt;/span&gt;&lt;span class="nf"&gt;.memberships.first.role&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;admin&amp;#39;&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 
-  &lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;@group.editors &amp;lt;&amp;lt; @user_3 sets 'editor' role on membership&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="nb"&gt;test&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;@group.editors &amp;lt;&amp;lt; @user_3 sets &amp;#39;editor&amp;#39; role on membership&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
     &lt;span class="vi"&gt;@group&lt;/span&gt;&lt;span class="nf"&gt;.editors&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="vi"&gt;@user_3&lt;/span&gt;
     &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_3&lt;/span&gt;&lt;span class="nf"&gt;.memberships.count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_3&lt;/span&gt;&lt;span class="nf"&gt;.memberships.first.role&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'editor'&lt;/span&gt;
+    &lt;span class="n"&gt;assert_equal&lt;/span&gt; &lt;span class="vi"&gt;@user_3&lt;/span&gt;&lt;span class="nf"&gt;.memberships.first.role&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;editor&amp;#39;&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 
   &lt;span class="n"&gt;teardown&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
@@ -338,7 +386,7 @@ role assignment of &amp;lsquo;admin&amp;rsquo;.&lt;/p&gt;
 &lt;p&gt;A neat thing about rake tasks is that when you redeclare a task, it doesnt overwrite the previous one. So, to use postmodern&amp;rsquo;s patch all you have to do is paste the following code to the bottom of your Rakefile and you&amp;rsquo;ll reap the full benefits.&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;span class="n"&gt;namespace&lt;/span&gt; &lt;span class="ss"&gt;:db&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
   &lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="ss"&gt;:seed&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="ss"&gt;:environment&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-    &lt;span class="n"&gt;env_seed_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;Rails&lt;/span&gt;&lt;span class="nf"&gt;.root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'db'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'seeds'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;Rails&lt;/span&gt;&lt;span class="nf"&gt;.env&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.rb&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;env_seed_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;Rails&lt;/span&gt;&lt;span class="nf"&gt;.root&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;db&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;seeds&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;Rails&lt;/span&gt;&lt;span class="nf"&gt;.env&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.rb&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="nb"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env_seed_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="nf"&gt;.exist?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env_seed_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
@@ -388,9 +436,9 @@ role assignment of &amp;lsquo;admin&amp;rsquo;.&lt;/p&gt;
       &lt;span class="nt"&gt;&amp;lt;script&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;
         $(function() {
           // get our value by name
-          $(&amp;quot;input[name='&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;%=&lt;/span&gt; &lt;span class="n"&gt;field_name_for_js&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;builder&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:classified&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;%&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;']&amp;quot;).val();
+          $(&amp;quot;input[name=&amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;%=&lt;/span&gt; &lt;span class="n"&gt;field_name_for_js&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;builder&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:classified&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;%&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;]&amp;quot;).val();
           // set our value by ID
-          $(&amp;quot;#&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;%=&lt;/span&gt; &lt;span class="n"&gt;field_id_for_js&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;builder&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:classified_true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;%&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'checked'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          $(&amp;quot;#&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;%=&lt;/span&gt; &lt;span class="n"&gt;field_id_for_js&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;builder&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:classified_true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;%&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;checked&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
         &lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
       &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
     &lt;span class="cp"&gt;&amp;lt;%&lt;/span&gt; &lt;span class="k"&gt;end&lt;/span&gt; &lt;span class="cp"&gt;%&amp;gt;&lt;/span&gt;
@@ -402,9 +450,9 @@ role assignment of &amp;lsquo;admin&amp;rsquo;.&lt;/p&gt;
 &lt;pre class="highlight html"&gt;&lt;span class="nt"&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
   &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="c1"&gt;// get our value by name
-&lt;/span&gt;    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;input[name='submission[project_attributes][classified]']&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;val&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/span&gt;    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;input[name=&amp;#39;submission[project_attributes][classified]&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;val&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
     &lt;span class="c1"&gt;// set our value by ID
-&lt;/span&gt;    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#submission_project_attributes_classified_true&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'checked'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#submission_project_attributes_classified_true&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;checked&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
   &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;
@@ -417,53 +465,6 @@ role assignment of &amp;lsquo;admin&amp;rsquo;.&lt;/p&gt;
 submission_project_attributes_classified_true
 &lt;/pre&gt;
 &lt;p&gt;Pretty handy stuff&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>jQuery helpers for Rails 3.0.0.beta</title>
-    <link rel="alternate" href="/blog/2010/02/08/jquery-helpers-for-rails-3-dot-0-0-dot-beta.html"/>
-    <id>/blog/2010/02/08/jquery-helpers-for-rails-3-dot-0-0-dot-beta.html</id>
-    <published>2010-02-08T10:07:00Z</published>
-    <updated>2010-02-08T10:07:00Z</updated>
-    <author>
-      <name>Russell Jones</name>
-    </author>
-    <content type="html">&lt;p&gt;I&amp;rsquo;ve just ported the unobtrusive javascript helpers in Rails 3 from Prototype to jQuery-1.4.1, but I haven&amp;rsquo;t tested it to work with earlier versions of jQuery yet. Let me know if you find this useful or have any issues installing the gem.&lt;/p&gt;
-
-&lt;p&gt;For those that don&amp;rsquo;t know, Rails 3 now makes use of HTML5 custom data attributes on the DOM instead of generating javascript inline when using it&amp;rsquo;s built in javascript helpers. If you&amp;rsquo;re not planning to use HTML5 in your app, you might benefit from another plugin I wrote called &lt;a href="http://github.com/CodeOfficer/js-data-helper"&gt;js-data-helper&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Thanks to &lt;a href="http://technicalpickles.com/"&gt;@technicalpickles&lt;/a&gt; for helping me package this up as a gem.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="http://github.com/CodeOfficer/jquery-helpers-for-rails3"&gt;The code is on Github&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="http://gemcutter.org/gems/jquery_helpers"&gt;The gem is on Gemcutter&lt;/a&gt;&lt;/p&gt;
-&lt;pre class="highlight text"&gt;Install:
-  (sudo) gem install jquery_helpers
-
-Usage:
-  rails generate jquery_helpers  [options]
-
-Runtime options:
-  -f, [--force]    # Overwrite files that already exist
-  -p, [--pretend]  # Run but do not make any changes
-  -q, [--quiet]    # Supress status output
-  -s, [--skip]     # Skip files that already exist
-
-Description:
-  A port of the unobtrusive Prototype helpers in Rails 3 to jQuery
-
-Example:
-  ./script/generate jquery_helpers
-
-This will create:
-  public/javascripts/jquery.rails.js
-  public/javascripts/jquery.rails.min.js
-&lt;/pre&gt;
-&lt;p&gt;Don&amp;rsquo;t forget to include &amp;lsquo;jquery.rails.js&amp;rsquo; in your layout along with jQuery.&lt;/p&gt;
-
-&lt;p&gt;UPDATE May 11, 2010:
-Rails has their own port to jQuery that is better maintained now.
-&lt;a href="http://github.com/rails/jquery-ujs"&gt;http://github.com/rails/jquery-ujs&lt;/a&gt;&lt;/p&gt;
 </content>
   </entry>
 </feed>

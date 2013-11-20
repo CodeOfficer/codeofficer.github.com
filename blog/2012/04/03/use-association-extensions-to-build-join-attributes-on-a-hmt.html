@@ -51,11 +51,8 @@
       </div>
     </div>
 
-    <div class="row-fluid">
-      <div class="span1">
-      </div>
-      <div class="span10">
-          <article>
+    <div class="container">
+        <article>
     <h1>Use Association Extensions to Build Join Attributes on a HMT</h1>
     <p><time>Apr  3, 2012</time></p>
     <p>It&rsquo;s common in Rails to use a <code>has_many :through</code> relationship to model User/Group Memberships.
@@ -87,12 +84,12 @@ following diagram and schema:</p>
 <span class="k">end</span>
 </pre>
 <p>We might deal directly with the join table to assign our additonal data.</p>
-<pre class="highlight ruby"><span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'User 1'</span><span class="p">)</span>
-<span class="vi">@user</span> <span class="o">=</span> <span class="no">Group</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'Group 1'</span><span class="p">)</span>
+<pre class="highlight ruby"><span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;User 1&#39;</span><span class="p">)</span>
+<span class="vi">@user</span> <span class="o">=</span> <span class="no">Group</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Group 1&#39;</span><span class="p">)</span>
 <span class="vi">@membership</span> <span class="o">=</span> <span class="no">Membership</span><span class="nf">.create</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
   <span class="n">m</span><span class="nf">.user</span> <span class="o">=</span> <span class="vi">@user</span>
   <span class="n">m</span><span class="nf">.group</span> <span class="o">=</span> <span class="vi">@group</span>
-  <span class="n">m</span><span class="nf">.role</span> <span class="o">=</span> <span class="s1">'admin'</span>
+  <span class="n">m</span><span class="nf">.role</span> <span class="o">=</span> <span class="s1">&#39;admin&#39;</span>
 <span class="k">end</span>
 <span class="vi">@user</span><span class="nf">.admin?</span> <span class="c1"># =&gt; true</span>
 <span class="vi">@user</span><span class="nf">.editor?</span> <span class="c1"># =&gt; false</span>
@@ -108,11 +105,11 @@ following diagram and schema:</p>
   <span class="n">has_many</span> <span class="ss">:groups</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:memberships</span>
 
   <span class="k">def </span><span class="nf">admin?</span>
-    <span class="n">memberships</span><span class="nf">.where</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">'admin'</span><span class="p">)</span><span class="nf">.first</span>
+    <span class="n">memberships</span><span class="nf">.where</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">&#39;admin&#39;</span><span class="p">)</span><span class="nf">.first</span>
   <span class="k">end</span>
 
   <span class="k">def </span><span class="nf">editor?</span>
-    <span class="n">memberships</span><span class="nf">.where</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">'editor'</span><span class="p">)</span><span class="nf">.first</span>
+    <span class="n">memberships</span><span class="nf">.where</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">&#39;editor&#39;</span><span class="p">)</span><span class="nf">.first</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </pre><pre class="highlight ruby"><span class="k">class </span><span class="nc">Membership</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
@@ -124,16 +121,16 @@ following diagram and schema:</p>
   <span class="n">has_many</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:memberships</span>
 
   <span class="n">has_many</span> <span class="ss">:admins</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:memberships</span><span class="p">,</span> <span class="ss">:source</span> <span class="o">=&gt;</span> <span class="ss">:user</span><span class="p">,</span>
-    <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="s2">&quot;memberships.role = 'admin'&quot;</span> <span class="k">do</span>
+    <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="s2">&quot;memberships.role = &#39;admin&#39;&quot;</span> <span class="k">do</span>
       <span class="k">def </span><span class="nf">&lt;&lt;</span><span class="p">(</span><span class="n">admin</span><span class="p">)</span>
-        <span class="n">proxy_association</span><span class="nf">.owner.memberships.create</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">'admin'</span><span class="p">,</span> <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="n">admin</span><span class="p">)</span>
+        <span class="n">proxy_association</span><span class="nf">.owner.memberships.create</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="n">admin</span><span class="p">)</span>
       <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="n">has_many</span> <span class="ss">:editors</span><span class="p">,</span> <span class="ss">:through</span> <span class="o">=&gt;</span> <span class="ss">:memberships</span><span class="p">,</span> <span class="ss">:source</span> <span class="o">=&gt;</span> <span class="ss">:user</span><span class="p">,</span>
-    <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="s2">&quot;memberships.role = 'editor'&quot;</span> <span class="k">do</span>
+    <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="s2">&quot;memberships.role = &#39;editor&#39;&quot;</span> <span class="k">do</span>
       <span class="k">def </span><span class="nf">&lt;&lt;</span><span class="p">(</span><span class="n">editor</span><span class="p">)</span>
-        <span class="n">proxy_association</span><span class="nf">.owner.memberships.create</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">'editor'</span><span class="p">,</span> <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="n">editor</span><span class="p">)</span>
+        <span class="n">proxy_association</span><span class="nf">.owner.memberships.create</span><span class="p">(</span><span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="n">editor</span><span class="p">)</span>
       <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -147,14 +144,14 @@ role assignment of &lsquo;admin&rsquo;.</p>
 <span class="vi">@user</span><span class="nf">.editor?</span> <span class="c1"># =&gt; false</span>
 </pre>
 <p>Pretty expressive, thanks to ActiveRecord!</p>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'test_helper'</span>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">&#39;test_helper&#39;</span>
 
 <span class="k">class </span><span class="nc">GroupTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
   <span class="n">setup</span> <span class="k">do</span>
-    <span class="vi">@user_1</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'User 1'</span><span class="p">)</span>
-    <span class="vi">@user_2</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'User 2'</span><span class="p">)</span>
-    <span class="vi">@user_3</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'User 3'</span><span class="p">)</span>
-    <span class="vi">@group</span> <span class="o">=</span> <span class="no">Group</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'Group 1'</span><span class="p">)</span>
+    <span class="vi">@user_1</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;User 1&#39;</span><span class="p">)</span>
+    <span class="vi">@user_2</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;User 2&#39;</span><span class="p">)</span>
+    <span class="vi">@user_3</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;User 3&#39;</span><span class="p">)</span>
+    <span class="vi">@group</span> <span class="o">=</span> <span class="no">Group</span><span class="nf">.create</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Group 1&#39;</span><span class="p">)</span>
   <span class="k">end</span>
 
   <span class="nb">test</span> <span class="s2">&quot;No Memberships&quot;</span> <span class="k">do</span>
@@ -167,16 +164,16 @@ role assignment of &lsquo;admin&rsquo;.</p>
     <span class="n">assert_equal</span> <span class="vi">@user_1</span><span class="nf">.memberships.first.role</span><span class="p">,</span> <span class="kp">nil</span>
   <span class="k">end</span>
 
-  <span class="nb">test</span> <span class="s2">&quot;@group.admins &lt;&lt; @user_2 sets 'admin' role on membership&quot;</span> <span class="k">do</span>
+  <span class="nb">test</span> <span class="s2">&quot;@group.admins &lt;&lt; @user_2 sets &#39;admin&#39; role on membership&quot;</span> <span class="k">do</span>
     <span class="vi">@group</span><span class="nf">.admins</span> <span class="o">&lt;&lt;</span> <span class="vi">@user_2</span>
     <span class="n">assert_equal</span> <span class="vi">@user_2</span><span class="nf">.memberships.count</span><span class="p">,</span> <span class="mi">1</span>
-    <span class="n">assert_equal</span> <span class="vi">@user_2</span><span class="nf">.memberships.first.role</span><span class="p">,</span> <span class="s1">'admin'</span>
+    <span class="n">assert_equal</span> <span class="vi">@user_2</span><span class="nf">.memberships.first.role</span><span class="p">,</span> <span class="s1">&#39;admin&#39;</span>
   <span class="k">end</span>
 
-  <span class="nb">test</span> <span class="s2">&quot;@group.editors &lt;&lt; @user_3 sets 'editor' role on membership&quot;</span> <span class="k">do</span>
+  <span class="nb">test</span> <span class="s2">&quot;@group.editors &lt;&lt; @user_3 sets &#39;editor&#39; role on membership&quot;</span> <span class="k">do</span>
     <span class="vi">@group</span><span class="nf">.editors</span> <span class="o">&lt;&lt;</span> <span class="vi">@user_3</span>
     <span class="n">assert_equal</span> <span class="vi">@user_3</span><span class="nf">.memberships.count</span><span class="p">,</span> <span class="mi">1</span>
-    <span class="n">assert_equal</span> <span class="vi">@user_3</span><span class="nf">.memberships.first.role</span><span class="p">,</span> <span class="s1">'editor'</span>
+    <span class="n">assert_equal</span> <span class="vi">@user_3</span><span class="nf">.memberships.first.role</span><span class="p">,</span> <span class="s1">&#39;editor&#39;</span>
   <span class="k">end</span>
 
   <span class="n">teardown</span> <span class="k">do</span>
@@ -204,11 +201,7 @@ role assignment of &lsquo;admin&rsquo;.</p>
   <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-      </div>
-      <div class="span1">
-      </div>
     </div>
-
 
     <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>

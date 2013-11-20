@@ -51,11 +51,8 @@
       </div>
     </div>
 
-    <div class="row-fluid">
-      <div class="span1">
-      </div>
-      <div class="span10">
-          <article>
+    <div class="container">
+        <article>
     <h1>Ruby on Rails, JQuery UI … and TabsRenderer!</h1>
     <p><time>May 19, 2008</time></p>
     <p>I&rsquo;m a big fan of <a href="http://ui.jquery.com/">JQuery</a> UI and have been using the <a href="http://ui.jquery.com/functional_demos/#ui.tabs">Tab plugin</a> a lot recently.</p>
@@ -120,24 +117,24 @@
 
   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
       <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-          <span class="nx">$</span><span class="p">(</span><span class="s1">'#tabs &gt; ul'</span><span class="p">).</span><span class="nx">tabs</span><span class="p">();</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#tabs &gt; ul&#39;</span><span class="p">).</span><span class="nx">tabs</span><span class="p">();</span>
       <span class="p">});</span>
   <span class="nt">&lt;/script&gt;</span>
 </pre>
 <p>Now use TabsRenderer to create some tabs &hellip;notice how you can put conditions on the tail end of the block. We pass &lsquo;self&rsquo; to our helper so that it knows where to delegate method calls that aren&rsquo;t it&rsquo;s own. Creating a tab is as simple as specifying a div #id and an Tab title.</p>
 <pre class="highlight erb">  <span class="cp">&lt;%</span> <span class="n">tabs</span> <span class="o">=</span> <span class="no">TabsRenderer</span><span class="nf">.new</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="cp">%&gt;</span>
 
-      <span class="cp">&lt;%</span> <span class="n">tabs</span><span class="nf">.create</span><span class="p">(</span><span class="s1">'basic_tab'</span><span class="p">,</span> <span class="s1">'Basic Info'</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">tabs</span><span class="nf">.create</span><span class="p">(</span><span class="s1">&#39;basic_tab&#39;</span><span class="p">,</span> <span class="s1">&#39;Basic Info&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
           # ...
       <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
 
-      <span class="cp">&lt;%</span> <span class="n">tabs</span><span class="nf">.create</span><span class="p">(</span><span class="s1">'gallery_tab'</span><span class="p">,</span> <span class="s1">'Gallery'</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">tabs</span><span class="nf">.create</span><span class="p">(</span><span class="s1">&#39;gallery_tab&#39;</span><span class="p">,</span> <span class="s1">&#39;Gallery&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
           # ...
       <span class="cp">&lt;%</span> <span class="k">end</span> <span class="k">unless</span> <span class="vi">@images</span><span class="nf">.blank?</span> <span class="cp">%&gt;</span>
 
-      <span class="cp">&lt;%</span> <span class="n">tabs</span><span class="nf">.create</span><span class="p">(</span><span class="s1">'admin_tab'</span><span class="p">,</span> <span class="s1">'Admin'</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">tabs</span><span class="nf">.create</span><span class="p">(</span><span class="s1">&#39;admin_tab&#39;</span><span class="p">,</span> <span class="s1">&#39;Admin&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="cp">%&gt;</span>
           <span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">:partial</span> <span class="o">=&gt;</span> <span class="s2">&quot;super_secret_stuff&quot;</span> <span class="cp">%&gt;</span>
-      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="k">if</span> <span class="n">current_user</span><span class="nf">.has_role?</span> <span class="s1">'admin'</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="k">if</span> <span class="n">current_user</span><span class="nf">.has_role?</span> <span class="s1">&#39;admin&#39;</span> <span class="cp">%&gt;</span>
 
   <span class="cp">&lt;%=</span> <span class="n">tabs</span><span class="nf">.render</span> <span class="cp">%&gt;</span>
 </pre>
@@ -183,11 +180,7 @@
   <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-      </div>
-      <div class="span1">
-      </div>
     </div>
-
 
     <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>

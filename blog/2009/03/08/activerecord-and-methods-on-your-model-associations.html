@@ -51,11 +51,8 @@
       </div>
     </div>
 
-    <div class="row-fluid">
-      <div class="span1">
-      </div>
-      <div class="span10">
-          <article>
+    <div class="container">
+        <article>
     <h1>ActiveRecord and methods on your model associations</h1>
     <p><time>Mar  8, 2009</time></p>
     <p>I left PHP to program in Ruby a little over a year ago now, though technically I think I focused more on learning Rails during my first month. Like most who made the journey, I found Ruby a joy to work with, and Rails to have everything I needed to make great web apps. But to this day, the part of Rails I struggle the most with is ActiveRecord. There&rsquo;s just so much magic in there &hellip;</p>
@@ -91,7 +88,7 @@
     <span class="n">affiliates</span><span class="nf">.with_status</span><span class="p">(</span><span class="ss">:approved</span><span class="p">)</span><span class="nf">.find</span><span class="p">(</span>
       <span class="ss">:all</span><span class="p">,</span>
       <span class="ss">:include</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:affiliations</span><span class="o">]</span><span class="p">,</span>
-      <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;affiliations.status = 'approved'&quot;</span><span class="o">]</span>
+      <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;affiliations.status = &#39;approved&#39;&quot;</span><span class="o">]</span>
     <span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -112,7 +109,7 @@
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="vi">@affiliates</span> <span class="o">=</span> <span class="n">current_user</span><span class="nf">.affiliates.with_combined_statuses</span><span class="p">(</span><span class="s1">'approved'</span><span class="p">)</span><span class="nf">.collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="nf">.name</span><span class="p">,</span> <span class="nb">p</span><span class="nf">.id.to_s</span> <span class="o">]</span> <span class="p">}</span>
+<span class="vi">@affiliates</span> <span class="o">=</span> <span class="n">current_user</span><span class="nf">.affiliates.with_combined_statuses</span><span class="p">(</span><span class="s1">&#39;approved&#39;</span><span class="p">)</span><span class="nf">.collect</span> <span class="p">{</span><span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="o">[</span> <span class="nb">p</span><span class="nf">.name</span><span class="p">,</span> <span class="nb">p</span><span class="nf">.id.to_s</span> <span class="o">]</span> <span class="p">}</span>
 </pre>
 <p>So, I learned you can pass a block to the association and declare methods there, as well, those methods can accept parameters.</p>
 
@@ -136,11 +133,7 @@
   <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-      </div>
-      <div class="span1">
-      </div>
     </div>
-
 
     <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
